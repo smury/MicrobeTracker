@@ -3,7 +3,7 @@ function g = logvalley(img,p)
 % and 'LoG' algorithms
 % 
 % - p.edgemode = 'none', 'log', 'valley', 'logvalley', 'clogvalley' or 
-%   0,1,2,3,5 - the mode of operation: 'logvalley' combines the two
+%   0,1,2,3,4 - the mode of operation: 'logvalley' combines the two
 %   algorithms, while 'clogvalley' only returns the 'cross' edge, requiring
 %   the product of the Laplacian and valley depth to be above threshold
 % - p.edgeSigmaL - sigma of Gaussian smoothing kernel for LoG

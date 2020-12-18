@@ -36,7 +36,7 @@ function varargout = maxwidthhist(varargin)
 % 'nodisp' - suppresses displaying the results as a figure.
 
 expr = 'mesh=cellList{frame}{cell}.mesh; w=sqrt((mesh(:,4)-mesh(:,2)).^2+(mesh(:,3)-mesh(:,1)).^2); value=max(w);';
-xlabel1 = 'Mean cell width, pixels';
-xlabel2 = 'Mean cell width, \mum';
+xlabel1 = 'Max cell width, pixels';
+xlabel2 = 'Max cell width, \mum';
 widtharray = plothist(expr,xlabel1,xlabel2,varargin);
 for i=1:nargout, varargout{i} = widtharray{i}; end

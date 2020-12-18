@@ -1,7 +1,7 @@
 function clist=cleancelllistwti(clist,varargin)
 % cleaning cellList for dividing cells
 % Works on the cellList structure directly, not file,
-% starting frame can be indicated as the optional secon argument
+% starting frame can be indicated as the optional second argument
 % outputs the updated structure
 % 
 % The function removes all cells before the starting frame (if indicated)

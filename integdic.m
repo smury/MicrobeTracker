@@ -1,6 +1,6 @@
 function integdic(varargin)
 % This function converts digital interference contrast (DIC) files into a
-% format relembling phase contrast images, i.e. dask cells on a light
+% format relembling phase contrast images, i.e. dark cells on a light
 % background.
 % 
 % The function will require the user to input the initial folder fith TIFF

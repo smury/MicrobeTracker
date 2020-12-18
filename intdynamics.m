@@ -105,17 +105,17 @@ for tpoint = 1:length(timepoints)
 end
 if dispmode
     plot(timepoints,intarray,'.-')
-    set(gca,'FontSize',14)
+    set(gca,'FontSize',12)
     if frame2timeflag
-        xlabel('Time','FontSize',16)
+        xlabel('Time','FontSize',14)
     else
-        xlabel('Frame','FontSize',16)
+        xlabel('Frame','FontSize',14)
     end
     if areamode
-        ylabel('Signal intensity','FontSize',16)
+        ylabel('Signal intensity','FontSize',14)
     elseif volumemode
-        ylabel('Signal concentration','FontSize',16)
+        ylabel('Signal concentration','FontSize',14)
     else
-        ylabel('Integrated signal','FontSize',16)
+        ylabel('Integrated signal','FontSize',14)
     end
 end

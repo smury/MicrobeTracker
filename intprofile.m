@@ -116,20 +116,20 @@ if dispmode
     end
     xlim(xlm)
     if pix2mucheck && ~unitlength
-        xlabel('Length, \mum','FontSize',16)
+        xlabel('Length, \mum','FontSize',14)
     elseif ~pix2mucheck && ~unitlength
-        xlabel('Length, pixels','FontSize',16)
+        xlabel('Length, pixels','FontSize',14)
     else
-        xlabel('Relative length','FontSize',16)
+        xlabel('Relative length','FontSize',14)
     end
     if strcmp(normalization,'area')
-        ylabel('Fluorescence, normalized by area','FontSize',16)
+        ylabel('Fluorescence, normalized by area','FontSize',14)
     elseif strcmp(normalization,'volume')
-        ylabel('Fluorescence, normalized by volume','FontSize',16)
+        ylabel('Fluorescence, normalized by volume','FontSize',14)
     else
-        ylabel('Fluorescence, integrated','FontSize',16)
+        ylabel('Fluorescence, integrated','FontSize',4)
     end
-    set(gca,'FontSize',14)
+    set(gca,'FontSize',12)
 end
 coordinate = x;
 profile = sgn;
