@@ -7,12 +7,13 @@ function [a,b] = expandpoly(x,y,d,varargin)
 % <x>,<y> - x and y coordinates of the original polygon vertices.
 % <d> - distance to move the edges (positive - outwards).
 % <chk> (optional) - do not check for clockwise orientation (if 1, it must 
-%     be clockwise already).
+%     be clockwise already). %sean murray: it must be counter clockwise
+%     already!!!
 % <a>,<b> - x,y coordinates of the resulting polygon.
 
 % define basic variables
 if isempty(varargin) || ~varargin{1}
-    d = d*(2*isContourClockwise(x,y)-1);
+    d = d*(2*isContourClockwise(x,y)-1);%Sean Murray: d=d for CCW, d=-d for CW
 end
 if size(x,1)==1, h=true; else h=false; end
 x = x(:);
