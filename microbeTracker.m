@@ -2028,8 +2028,9 @@ function selectclick(hObject, eventdata)
      ps = get(ax,'CurrentPoint');
      if ps(1,1)<0 || ps(1,1)>imsizes(end,2) || ps(1,2)<0 || ps(1,2)>imsizes(end,1), return; end;
      warning off
-     pos.x = ps(1,1);
-     pos.y = ps(1,2);
+     Pos=struct;
+     Pos.x = ps(1,1);
+     Pos.y = ps(1,2);
      warning on
      % perform the actions
      flag = true;
@@ -2042,13 +2043,13 @@ function selectclick(hObject, eventdata)
                 if isempty(cellList{frame}{cell}), continue; end
                 if isfield(cellList{frame}{cell},'mesh') && length(cellList{frame}{cell}.mesh)>1
                     box = cellList{frame}{cell}.box;
-                    if inpolygon(pos.x,pos.y,[box(1) box(1) box(1)+box(3) box(1)+box(3)],[box(2) box(2)+box(4) box(2)+box(4) box(2)])
+                    if inpolygon(Pos.x,Pos.y,[box(1) box(1) box(1)+box(3) box(1)+box(3)],[box(2) box(2)+box(4) box(2)+box(4) box(2)])
                         mesh = cellList{frame}{cell}.mesh;
-                        if inpolygon(pos.x,pos.y,[mesh(:,1);flipud(mesh(:,3))],[mesh(:,2);flipud(mesh(:,4))])
+                        if inpolygon(Pos.x,Pos.y,[mesh(:,1);flipud(mesh(:,3))],[mesh(:,2);flipud(mesh(:,4))])
                             if get(handles.setpolarity,'Value') && ~splitSelectionMode % selecting stalk
                                 flag = false;
                                 mn = ceil(size(mesh,1)/2);
-                                if inpolygon(pos.x,pos.y,[mesh(mn:end,1);flipud(mesh(mn:end,3))],[mesh(mn:end,2);flipud(mesh(mn:end,4))])
+                                if inpolygon(Pos.x,Pos.y,[mesh(mn:end,1);flipud(mesh(mn:end,3))],[mesh(mn:end,2);flipud(mesh(mn:end,4))])
                                     if ~isfield(cellList{frame}{cell},'timelapse') || cellList{frame}{cell}.timelapse % TODO correct
                                         cellList = reorientall(cellList,cell,true);
                                     else
@@ -2095,9 +2096,9 @@ function selectclick(hObject, eventdata)
                 elseif isfield(cellList{frame}{cell},'contour') && length(cellList{frame}{cell}.contour)>1 && ...
                         ~get(handles.setpolarity,'Value') && ~get(handles.removepolarity,'Value') % Using 'contour' instead of 'mesh'
                     box = cellList{frame}{cell}.box;
-                    if inpolygon(pos.x,pos.y,[box(1) box(1) box(1)+box(3) box(1)+box(3)],[box(2) box(2)+box(4) box(2)+box(4) box(2)])
+                    if inpolygon(Pos.x,Pos.y,[box(1) box(1) box(1)+box(3) box(1)+box(3)],[box(2) box(2)+box(4) box(2)+box(4) box(2)])
                         contour = cellList{frame}{cell}.contour;
-                        if inpolygon(pos.x,pos.y,contour(:,1),contour(:,2))
+                        if inpolygon(Pos.x,Pos.y,contour(:,1),contour(:,2))
                             flag = false;
                             if isempty(find((selectedList-cell)==0,1))
                                 selectedList = [selectedList, cell]; % Adding a cell to selectedList
@@ -3509,6 +3510,7 @@ function subtractbgr(channels,range,varargin)
             gdisp('Background subtraction error: the number of phase contrast and signal images not matching');
             continue
         end
+
         for i=crange(1):crange(2)
             f(g) = 1;
             if imsizes(1,3)==1
@@ -4343,7 +4345,6 @@ for cell = proccells % parfor
             % select the cells so that the mesh always goes from the stalk pole
             mesh1 = flipud(mesh(res+1:end,:)); % daughter cell
             mesh2 = mesh(1:res-1,:); % mother cell
-
             
             if ismember(p.algorithm,[2 3])
                 pcCell1 = splitted2model(mesh1,p);
@@ -5442,7 +5443,7 @@ function fig = createdispfigure(celldata)
     pos = [pos(1)+pos(3)/2-200 pos(2)+pos(4)/2-300 400 430];
     set(dhandles.fig,'pos',pos);
     fig = dhandles.fig;
-    dhandles.ax = axes('units','pixels','pos',[1 1 400 400],'box','off','tick','out','DataAspectRatio',[1 1 1]);
+    dhandles.ax = axes('units','pixels','pos',[1 1 400 400],'box','off','tickdir','out','DataAspectRatio',[1 1 1]);
     dhandles.cpanel = uipanel(dhandles.fig,'units','pixels','pos',[1 401 400 30]);
     dhandles.next = uicontrol(dhandles.cpanel,'units','pixels','Position',[5 4 63 20],'String','Next step','callback',@dispfitcontrol,'KeyPressFcn',@dispfitkeypress);
     dhandles.next100 = uicontrol(dhandles.cpanel,'units','pixels','Position',[70 4 63 20],'String','+100 steps','callback',@dispfitcontrol,'KeyPressFcn',@dispfitkeypress);
@@ -5937,8 +5938,6 @@ end
 
 
 
-
-
 % *********** Conversion functions, conputational subfunctions ************
 
 function pcc = model2box(pcc,box,alg)
@@ -6028,8 +6027,6 @@ function a=M(a,t)
     end
 end
 
-
-
 function res=intersections(coord)
     % determines if a contour (Nx2 array of x-y pairs of coordinates) is
     % self-intersecting
@@ -6041,7 +6038,6 @@ function res=intersections(coord)
     if length(IN)~=sum(IN) && sum(IN)~=0, res=true; else res=false; end
     %if find(IN,1), res=true; else res=false; end
 end
-
 
 function res=getRegions(im,thres,im16,p)
 % This function determines and labels regions on an image (im) using edge
@@ -6068,8 +6064,6 @@ imgProc(:,[1 end])=0;
 imgProc([1 end],:)=0;
 res = bwlabel(imgProc,4);
 end
-
-
 
 function [extDx,extDy]=getExtForces(im,im16,p)
 % computes the image forces from the image im using parameters
@@ -6117,16 +6111,12 @@ catch
 end
 end
 
-
-
 function im2 = img2imge16(im,nm)
 % erodes image "im" by "nm" pixels
 global se
 im2 = im;
 for i=1:nm, im2 = imerode(im2,se);end
 end
-
-
 
 function im2 = img2imge(im,nm)
 % erodes image "im" by "nm" pixels and normalizes it, outputs double
@@ -6138,8 +6128,6 @@ mn=mmin(im2);
 mx=mmax(im2);
 im2=1-(im2-mn)/double(mx-mn);
 end
-
-
 
 function res=isDivided(mesh,img,thr,bgr)
 % splits the cell based on phase profile
