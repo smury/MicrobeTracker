@@ -182,8 +182,8 @@ void makecw(double *x1, double *y1, int m)
 
 double getArea(double *x0, double *y0, int m, double *x2c, double *y2c)
 {
-    double x1[4];
-    double y1[4];
+    double x1[1000];
+    double y1[1000];
     int i;    
     for(i=0;i<m;i++){x1[i]=x0[i];y1[i]=y0[i];}
     makecw(x1,y1,m);
