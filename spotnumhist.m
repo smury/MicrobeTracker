@@ -29,7 +29,10 @@ function varargout = spotnumhist(varargin)
 % <nooutput> blocks standard output (type of data processed, mean, and
 %     standard deviation). 
 
-expr = 'value=length(cellList{frame}{cell}.spots.magnitude);';
+
+
+
+expr = ['value=length(cellList{frame}{cell}.spots.l);'];
 xlabel1 = 'Number of spots per cell';
 xlabel2 = xlabel1;
 intarray = plothist(expr,xlabel1,xlabel2,varargin);

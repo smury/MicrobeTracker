@@ -38,8 +38,8 @@ for frame=range
         if ~isempty(cellList{frame}{cell}) && length(cellList{frame}{cell}.mesh)>4
             ncells = ncells + 1;
             frames(frame) = 1;
-            if isfield(cellList{frame}{cell},'spots') && ~isempty(cellList{frame}{cell}.spots.magnitude)
-                nspots = nspots + length(cellList{frame}{cell}.spots.magnitude);
+            if isfield(cellList{frame}{cell},'spots') && ~isempty(cellList{frame}{cell}.spots.l)
+                nspots = nspots + length(cellList{frame}{cell}.spots.l);
                 ncellswithspots = ncellswithspots + 1;
             end
             area = cellList{frame}{cell}.area;

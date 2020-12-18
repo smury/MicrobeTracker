@@ -9,8 +9,8 @@ function dispcell(cellList,images,frame,cell,varargin)
 % dispcell(cellList,images,frame,cell,...,'disk')
 % dispcell(cellList,images,frame,cell,...,'circle')
 %
-% This function plots a digram of the number of spots vs. the length of a
-% cell. The meshes and the spots have to be previously detected.
+% 
+% 
 %
 % <cellList> is an array that contains the meshes. You can drag and drop
 %     the file with the data into MATLAB workspace or open it using MATLAB
@@ -71,9 +71,9 @@ varargin = varargin(ind);
 if length(varargin)>=1 && size(varargin{1},2)==3 && min(min(varargin{1}))>=0 && max(max(varargin{1}))<=1
     colortable = varargin{1};
 else
-    colortable = repmat([0 1 0],nfields,1);
+    colortable = repmat([0 0 0],nfields,1);
     colortable(1,:) = [1 0 0];
-    if nfields>1, colortable = [colortable;[1 1 0]]; end
+    %if nfields>1, colortable = [colortable;[0 0 1]]; end
 end
 if ~flag1
     if marker==0
@@ -92,6 +92,7 @@ end
 
 if frame<=size(images,3), imshow(imcrop(images(:,:,frame),box),[]); hold on; end
 % set(gca,'pos',[0 0 1 1])
+
 drawcell(cellList{frame}(cell),1,fieldnames,'',markersize,colortable,marker,0,1,[],[-box(1)+1 -box(2)+1]);
 hold off
 if frame>size(images,3)

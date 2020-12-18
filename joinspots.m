@@ -208,7 +208,7 @@ setcontrols
                 else
                     bflag = false;
                     for tframe=[frame:-1:1 frame+1:maxframe]
-                        if cell<=length(cellList{tframe}) && ~isempty(cellList{tframe}{tcell}) && length(cellList{tframe}{tcell}.mesh)>1
+                        if tcell<=length(cellList{tframe}) && ~isempty(cellList{tframe}{tcell}) && length(cellList{tframe}{tcell}.mesh)>1
                             cell = tcell;
                             frame = tframe;
                             bflag = true;
@@ -328,7 +328,7 @@ setcontrols
         end
         hold(handles.disp.diagram,'off')
         xlim(handles.disp.diagram,[0 xmax+0.5*params.dt]);
-        ylim(handles.disp.diagram,[0 1])
+        ylim(handles.disp.diagram,[-0.1 1.1])
         xlabel(handles.disp.diagram,'Time','FontSize',12)
         ylabel(handles.disp.diagram,'Relative spot position','FontSize',12)
         set(handles.disp.diagram,'FontSize',12,'box','on')
@@ -362,7 +362,7 @@ setcontrols
                 leafnum = [];
                 leafpos = [];
                 for lframe=max(1,cframe-params.maxlinklength):min((cframe-1),length(cellList))
-                    if ~isempty(cellList{lframe}{cell}) && isfield(cellList{lframe}{cell},params.spotsfield) && ...
+                    if length(cellList{lframe})>=cell && ~isempty(cellList{lframe}{cell}) && isfield(cellList{lframe}{cell},params.spotsfield) && ...
                             ~isempty(cellList{lframe}{cell}.(params.spotsfield).l) &&  ...
                             isfield(cellList{lframe}{cell}.(params.spotsfield),'childrenframe')
                         for lspot = 1:length(cellList{lframe}{cell}.(params.spotsfield).l)
@@ -644,6 +644,7 @@ end
 function [spotList,spotList2] = getSpotList(cellList,field,pix2mu)
     spotList = {};
     for frame=1:length(cellList)
+        if ~isempty(cellList)
         for cell=1:length(cellList{frame})
             if cell<=length(cellList{frame}) && ~isempty(cellList{frame}{cell}) && isfield(cellList{frame}{cell},field)
                 for spot=1:length(cellList{frame}{cell}.(field).l)
@@ -659,6 +660,7 @@ function [spotList,spotList2] = getSpotList(cellList,field,pix2mu)
             if length(spotList{q}.relpos)>1
                 spotList2 = [spotList2 spotList{q}];
             end
+        end
         end
     end
     function s = trackonespot(frame,spot)

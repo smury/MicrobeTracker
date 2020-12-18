@@ -12,6 +12,8 @@ function spotvslength(cellList,varargin)
 % <pix2mu> ? conversion factor from pixels to microns, the size of a pixel
 %     in microns. 
 
+
+
 pix2mu = 1;
 pix2mucheck = false;
 for i=length(varargin):-1:1
@@ -28,7 +30,7 @@ for frame=1:length(cellList)
         if cell<=length(cellList{frame}) && ~isempty(cellList{frame}{cell}) && ...
                 length(cellList{frame}{cell}.mesh)>4 && isfield(cellList{frame}{cell},'spots')
             cellLength = [cellLength cellList{frame}{cell}.length];
-            numberoffoci = [numberoffoci length(cellList{frame}{cell}.spots.magnitude)];
+            numberoffoci = [numberoffoci length(cellList{frame}{cell}.spots.l)];
         end
     end
 end
