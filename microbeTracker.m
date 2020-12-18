@@ -3511,9 +3511,11 @@ function subtractbgr(channels,range,varargin)
         for i=crange(1):crange(2)
             f(g) = 1;
             if imsizes(1,3)==1
-                imgP = rawPhaseData(:,:,1);
+                imgP = imadjust(rawPhaseData(:,:,1));
+                %imadjust added by Sean Murray to enhance the contrast. during segmentation this is done via img2imge (which does greyscale erosion and then expands the dynamic range) but was not implemented for background subtraction.
+                %note that imadjust saturates the top and bottom 1% of pixels
             else
-                imgP = rawPhaseData(:,:,i);
+                imgP = imadjust(rawPhaseData(:,:,i));
             end
             if isempty(imgP), continue; end
             if channels(g)==3, img = rawS1Data(:,:,i); end
@@ -3523,7 +3525,7 @@ function subtractbgr(channels,range,varargin)
                 break
             end
             if invert, imgP = max(max(imgP))-imgP; end
-            thres = graythreshreg(imgP,p.threshminlevel);
+            thres = graythreshreg(imgP);
             mask = im2bw(imgP,thres);
             for k=1:p.bgrErodeNum, mask = imerode(mask,se); end
             bgr = mean(img(mask));

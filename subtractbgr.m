@@ -5,7 +5,7 @@ if length(range)==1, range = [range range]; end
 range=[max(1,range(1)) min(size(rawS1Data,3),size(rawPhaseData,3),range(2))];
 if range(1)>range(2), range(1)=range(2); end
 for i=range(1):range(2)
-    imgP = rawPhaseData(:,:,i);
+    imgP = imadjust(rawPhaseData(:,:,i));%% expand the range of values to fill the int16 range - then graythresh works better
     if channels(g)==3, img = rawS1Data(:,:,i); end
     if channels(g)==4, img = rawS2Data(:,:,i); end
     thres = graythresh(imgP);
@@ -15,3 +15,16 @@ for i=range(1):range(2)
     img = uint16(max(0,int32(img)-bgr));
     if mod(i,5)==0, disp(['Subtracting backgroung from signal ' num2str(channels(g)-2) ', frame ' num2str(i)]); end
 end
+
+end
+
+% function im2 = img2imge(im,nm)
+% % erodes image "im" by "nm" pixels and normalizes it, outputs double
+% global se
+% im2 = im;
+% for i=1:nm, im2 = imerode(im2,se);end
+% im2 = double(im2);
+% mn=mmin(im2);
+% mx=mmax(im2);
+% im2=1-(im2-mn)/double(mx-mn);
+% end
