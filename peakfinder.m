@@ -118,7 +118,7 @@ for frame=1:length(cellList)
                     plot(f+1,signal1(f+1),'.g')
                     plot(signal1,'--g')
                     xlim([0 length(signal1)])
-                    xlabel('Cell coordinate, pixels','FontSize',14)
+                    xlabel('Cell segment','FontSize',14)
                     ylabel('Signal intensity','FontSize',14)
                     set(gca,'FontSize',12)
                 end
@@ -149,7 +149,7 @@ for frame=1:length(cellList)
                 % combine closely located spots (closer than mindistnew)
                 lnew = [];
                 if ~isempty(fa)
-                    l = cellList{frame}{cell}.lengthvector(round(fa));
+                    l = cellList{frame}{cell}.lengthvector(round(fa+1));%%Sean Murray 02/07/2015 changed fa to fa+1
                     sptdist = l(2:end)-l(1:end-1);
                     c = abs(sptdist)<mindistnew;
                     % updated by Hoong at 2012/09/05; it was c = sptdist<mindistnew;But
