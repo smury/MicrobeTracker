@@ -2665,7 +2665,7 @@ function export_fn(hObject, eventdata)
     fmt = formatlist{format};
     fmt = fmt(2:end);
     if format==1
-        aviobj = avifile(outfile,'fps',fps','quality',100,'compression','Cinepak');
+        aviobj = avifile(outfile,'fps',fps','quality',100);%,'compression','Cinepak');
     elseif format==2
         fmt = 'tiffn';
     elseif format==3

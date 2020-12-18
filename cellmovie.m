@@ -100,10 +100,11 @@ while i<length(varargin)
 end
 for i=1:length(varargin)
     if ischar(varargin{i}) && length(varargin{i})>4 && ...
-            (strcmp(varargin{i}(end-3:end),'.avi') || strcmp(varargin{i}(end-3:end),'.jpg') || ...
+            (strcmp(varargin{i}(end-3:end),'.mp4') || strcmp(varargin{i}(end-3:end),'.jpg') || ...
              strcmp(varargin{i}(end-3:end),'.eps') || strcmp(varargin{i}(end-3:end),'.tif'))
          basefile = varargin{i}(1:end-4);
          outtype = varargin{i}(end-2:end);
+         outfile = varargin{i};
     elseif ischar(varargin{i}) && strcmp(varargin{i},'disk')
         marker = 1; % disk
     elseif ischar(varargin{i}) && strcmp(varargin{i},'circle')
@@ -162,8 +163,10 @@ for frame=frange
 end
 
 % prepare the output format
-if strcmp(outtype,'avi')
-    aviobj = avifile(outfile,'fps',fps','quality',100,'compression','Cinepak');
+if strcmp(outtype,'mp4')
+    %aviobj = avifile(outfile,'fps',1,'quality',100,'compression','Cinepak');
+    aviobj = VideoWriter(outfile,'MPEG-4');
+    open(aviobj);
 elseif strcmp(outtype,'tif')
     fmt = 'tiffn';
 elseif strcmp(outtype,'jpg')
@@ -228,8 +231,10 @@ for f=1:length(frange)
     xlim([box(1)-box1(1) box(1)-box1(1)+box(3)]+1)
     ylim([box(2)-box1(2) box(2)-box1(2)+box(4)]+1)
     hold off
-    if strcmp(outtype,'avi')
-        aviobj = addframe(aviobj,ax2);
+    ax2=getframe(fig);
+    if strcmp(outtype,'mp4')
+        writeVideo(aviobj,ax2);
+        %aviobj = addframe(aviobj,ax2);
     elseif isempty(outtype)
         pause(0.5)
     else
@@ -237,8 +242,9 @@ for f=1:length(frange)
     end
 end
 
-if strcmp(outtype,'avi')
-    aviobj = close(aviobj); %#ok<NASGU>
+if strcmp(outtype,'mp4')
+    %aviobj = close(aviobj); %#ok<NASGU>
+    close(aviobj);
 end
 
 
