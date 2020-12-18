@@ -11,7 +11,8 @@ splitregions = 1
 edgemode = 3
 edgeSigmaL = 1.1
 edgeSigmaV = 1
-valleythres1 = 0
+%missing h at the end! gets multiplied by 300
+valleythres1 = 0 
 valleythres2 = 0.0002
 erodeNum = 1
 opennum = 0
