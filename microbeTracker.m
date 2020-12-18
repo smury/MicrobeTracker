@@ -77,7 +77,7 @@ global rmask cellList cellListN selectedList shiftframes imsizes imageFolders im
 
 % GUI
 
-handles.maingui = figure('pos',[100 100 1000 800],'WindowButtonMotionFcn',@mousemove,'windowButtonUpFcn',@dragbutonup,'windowButtonDownFcn',@selectclick,'KeyPressFcn',@mainkeypress,'WindowKeyPressFcn',@wndmainkeypress,'WindowKeyReleaseFcn',@wndmainkeyrelease,'CloseRequestFcn',@mainguiclosereq,'Toolbar','none','Menubar','none','Name','MicrobeTracker 0.937','NumberTitle','off','IntegerHandle','off','ResizeFcn',@resizefcn);
+handles.maingui = figure('pos',[100 100 1000 800],'WindowButtonMotionFcn',@mousemove,'windowButtonUpFcn',@dragbutonup,'windowButtonDownFcn',@selectclick,'KeyPressFcn',@mainkeypress,'WindowKeyPressFcn',@wndmainkeypress,'WindowKeyReleaseFcn',@wndmainkeyrelease,'CloseRequestFcn',@mainguiclosereq,'Toolbar','none','Menubar','none','Name','MicrobeTracker 0.937','NumberTitle','off','IntegerHandle','off','ResizeFcn',@resizefcn,'Visible','off');
 
 %Image loading and displaying
 handles.impanel = uipanel('units','pixels','pos',[17 170 750 600]);
@@ -315,6 +315,7 @@ rmask{1} = strel('arbitrary',[0 0 0 0 0; 0 0 0 0 0; 1 1 0 1 1; 0 0 0 0 0; 0 0 0 
 rmask{2} = strel('arbitrary',[1 0 0 0 0; 0 1 0 0 0; 0 0 0 0 0; 0 0 0 1 0; 0 0 0 0 1]);
 rmask{3} = strel('arbitrary',[0 0 1 0 0; 0 0 1 0 0; 0 0 0 0 0; 0 0 1 0 0; 0 0 1 0 0]);
 rmask{4} = strel('arbitrary',[0 0 0 0 1; 0 0 0 1 0; 0 0 0 0 0; 0 1 0 0 0; 1 0 0 0 0]);
+set(handles.maingui,'visible','on');
 gdispinit;
 1;
 
@@ -1287,8 +1288,8 @@ function displayImage
         %magnification = apiSP.getMagnification();
         zoomlocation = apiSP.getVisibleLocation();
         dellist{1} = handles.hMagBox;
-        dellist = [dellist get(handles.hfig,'Children')];
-        dellist = [dellist get(handles.impanel,'Children')];
+        dellist{end+1} = get(handles.hfig,'Children');
+        dellist{end+1} = get(handles.impanel,'Children');
     end
     if strcmp(get(handles.zoomin,'Enable'),'off')
         set(handles.zoomcheck,'Enable','on');
