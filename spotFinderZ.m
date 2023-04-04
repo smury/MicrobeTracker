@@ -660,6 +660,8 @@ h = [];
             frame=framerange(frind);
             cell = 0;
             goup = true;
+            cimage0=[];
+            cimageF=[];
             convertimages
             while true
                 while true
